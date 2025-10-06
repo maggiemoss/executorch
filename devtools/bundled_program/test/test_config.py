@@ -67,6 +67,7 @@ class TestConfig(unittest.TestCase):
             for testset_idx in range(n_sets_per_plan_test):
                 self.assertIOListEqual(
                     # pyre-ignore [6]: expected `List[Union[bool, float, int, Tensor]]` but got `Sequence[Union[bool, float, int, Tensor]]
+                    # pyrefly: ignore  # bad-argument-type
                     rand_inputs[method_test_suite_idx][testset_idx],
                     method_test_suites[method_test_suite_idx]
                     .test_cases[testset_idx]
@@ -74,6 +75,7 @@ class TestConfig(unittest.TestCase):
                 )
                 self.assertIOListEqual(
                     # pyre-ignore [6]: expected `List[Union[bool, float, int, Tensor]]` but got `Sequence[Union[bool, float, int, Tensor]]
+                    # pyrefly: ignore  # bad-argument-type
                     rand_expected_outpus[method_test_suite_idx][testset_idx],
                     method_test_suites[method_test_suite_idx]
                     .test_cases[testset_idx]
@@ -106,6 +108,7 @@ class TestConfig(unittest.TestCase):
                 ri = rand_inputs[method_test_suite_idx][testset_idx]
                 self.assertIOListEqual(
                     # pyre-ignore [6]: expected `List[Union[bool, float, int, Tensor]]` but got `Sequence[Union[bool, float, int, Tensor]]
+                    # pyrefly: ignore  # bad-argument-type
                     ri,
                     method_test_suites[method_test_suite_idx]
                     .test_cases[testset_idx]
@@ -124,6 +127,7 @@ class TestConfig(unittest.TestCase):
                     ]
 
                 self.assertIOListEqual(
+                    # pyrefly: ignore  # bad-argument-type
                     flatten_eager_model_outputs,
                     method_test_suites[method_test_suite_idx]
                     .test_cases[testset_idx]

@@ -500,6 +500,7 @@ class TestComputeCodegenUnboxedKernels(unittest.TestCase):
 
         result = ComputeCodegenUnboxedKernels(
             selector, use_aten_lib, add_exception_boundary=False
+        # pyrefly: ignore  # bad-argument-type
         )(entry)
         # Concat used to prevent whitespace stripping
         expected_str = (
@@ -577,6 +578,7 @@ Kernel(
         for add_exception_boundary in (True, False):
             result = ComputeCodegenUnboxedKernels(
                 selector, use_aten_lib, add_exception_boundary
+            # pyrefly: ignore  # bad-argument-type
             )(entry)
             # Concat used to prevent whitespace stripping
             expected_str = """"""
@@ -600,6 +602,7 @@ Kernel(
 
         result = ComputeCodegenUnboxedKernels(
             selector, use_aten_lib, add_exception_boundary=False
+        # pyrefly: ignore  # bad-argument-type
         )(entry)
         # Concat used to prevent whitespace stripping
         expected_str = (
@@ -627,6 +630,7 @@ Kernel(
 
         result = ComputeCodegenUnboxedKernels(
             selector, use_aten_lib, add_exception_boundary=True
+        # pyrefly: ignore  # bad-argument-type
         )(entry)
         # Concat used to prevent whitespace stripping
         expected_str = (
@@ -671,6 +675,7 @@ Kernel(
 
         result = ComputeCodegenUnboxedKernels(
             selector, use_aten_lib, add_exception_boundary=False
+        # pyrefly: ignore  # bad-argument-type
         )(entry)
         # Concat used to prevent whitespace stripping
         expected_str = (

@@ -22,8 +22,10 @@ class SampleModel(torch.nn.Module):
 
     def forward(self, x: torch.Tensor, q: torch.Tensor) -> torch.Tensor:
         z = x.clone()
+        # pyrefly: ignore  # bad-argument-type
         torch.mul(self.a, x, out=z)
         y = x.clone()
+        # pyrefly: ignore  # no-matching-overload
         torch.add(z, self.b, out=y)
         torch.add(y, q, out=y)
         return y

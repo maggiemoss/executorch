@@ -22,7 +22,9 @@ from executorch.extension.pybindings.portable_lib import (
     _reset_profile_results,
 )
 from executorch.extension.pytree import tree_flatten
+# pyrefly: ignore  # import-error
 from executorch.profiler.fb.parse_profiler_results import profile_table
+# pyrefly: ignore  # import-error
 from executorch.profiler.parse_profiler_results import (
     deserialize_profile_results,
     profile_aggregate_framework_tax,
@@ -52,20 +54,26 @@ class TestCustomOps(unittest.TestCase):
         # The serialized program file. This must live longer than cls.module,
         # because the C++ pybindings will have a pointer to it. But none of the
         # tests should need to touch it.
+        # pyrefly: ignore  # no-access
         cls.__buffer: bytes = (
             to_edge(export(model, inputs, strict=True)).to_executorch().buffer
         )
 
+        # pyrefly: ignore  # no-access, missing-attribute
         cls.module = _load_for_executorch_from_buffer(cls.__buffer)
 
         # pyre-fixme[16]: Module `pytree` has no attribute `tree_flatten`.
+        # pyrefly: ignore  # no-access
         cls.inputs_flattened, _ = tree_flatten(inputs)
+        # pyrefly: ignore  # missing-attribute
         cls.module.run_method("forward", tuple(cls.inputs_flattened))
         prof_dump = _dump_profile_results()
         assert (
             len(prof_dump) > 0
         ), "prof_dump is empty; may need to build with `-c executorch.prof_enabled=true`"
+        # pyrefly: ignore  # no-access
         cls.prof_results, cls.mem_results = deserialize_profile_results(prof_dump)
+        # pyrefly: ignore  # no-access
         cls.expect_ops = ["native_call_add.out", "native_call_mul.out"]
 
     def test_profiler_new_block(self) -> None:

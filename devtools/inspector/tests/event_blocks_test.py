@@ -53,6 +53,7 @@ class TestEventBlock(unittest.TestCase):
             delegate_debug_id_str,
             # pyre-fixme[6]: For 6th argument expected `Optional[bytes]` but got
             #  `Optional[str]`.
+            # pyrefly: ignore  # bad-argument-type
             delegate_debug_metadata,
             start_time=time[0],
             end_time=time[1],
@@ -196,6 +197,7 @@ class TestEventBlock(unittest.TestCase):
             instruction_id=1, delegate_debug_id=100
         )
         # Modify this debug event so it's different from debug_event_1
+        # pyrefly: ignore  # missing-attribute
         debug_event_2.debug_entry.tensor.sizes = [2]  # pyre-ignore
         run_data_2 = flatcc.RunData(
             name="signature_a",
@@ -621,13 +623,17 @@ class TestEventBlock(unittest.TestCase):
         # Create Test Maps
         handle_map = {"0": [100], "1": [110], "2": [120]}
         delegate_map = {
+            # pyrefly: ignore  # missing-argument
             "0": DelegateMetadata(
+                # pyrefly: ignore  # unexpected-positional-argument
                 {
                     "name": "delegate",
                     "delegate_map": {10: (100, 1000)},
                 }
             ),
+            # pyrefly: ignore  # missing-argument
             "2": DelegateMetadata(
+                # pyrefly: ignore  # unexpected-positional-argument
                 {
                     "name": "delegate_2",
                     "delegate_map": {20: (200,)},
@@ -648,6 +654,7 @@ class TestEventBlock(unittest.TestCase):
                 self.assertEqual(event.delegate_backend_name, metadata["name"])
                 self.assertEqual(
                     event.debug_handles,
+                    # pyrefly: ignore  # index-error
                     metadata["delegate_map"][delegate_debug_identifier],  # pyre-ignore
                 )
             else:

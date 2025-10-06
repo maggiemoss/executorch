@@ -1,4 +1,5 @@
 import numpy as np
+# pyrefly: ignore  # import-error
 import ffht
 import timeit
 import sys
@@ -15,6 +16,7 @@ for i in range(reps):
 t2 = timeit.default_timer()
 
 if sys.version_info[0] == 2:
+    # pyrefly: ignore  # unsupported-operation
     print (t2 - t1 + 0.0) / (reps + 0.0)
 if sys.version_info[0] == 3:
     print('{}'.format((t2 - t1 + 0.0) / (reps + 0.0)))

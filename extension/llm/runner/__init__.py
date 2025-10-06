@@ -20,6 +20,7 @@ try:
         make_image_input,
         make_raw_audio_input,
         make_text_input,
+        # pyrefly: ignore  # missing-module-attribute
         make_token_input,
         MultimodalInput,
         MultimodalRunner,

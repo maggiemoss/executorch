@@ -114,7 +114,9 @@ at::Tensor wrapper_CPU__foo(at::TensorList a) {
 
 
 class TestGenCustomOpsHeader(unittest.TestCase):
+    # pyrefly: ignore  # implicit-import
     @patch.object(torchgen.utils.FileManager, "write_with_template")
+    # pyrefly: ignore  # implicit-import
     @patch.object(torchgen.utils.FileManager, "write")
     def test_fm_writes_custom_ops_header_when_boolean_is_true(
         self, unused: Mock, mock_method: Mock
@@ -134,7 +136,9 @@ class TestGenCustomOpsHeader(unittest.TestCase):
                 "CustomOpsNativeFunctions.h", "NativeFunctions.h", ANY
             )
 
+    # pyrefly: ignore  # implicit-import
     @patch.object(torchgen.utils.FileManager, "write_with_template")
+    # pyrefly: ignore  # implicit-import
     @patch.object(torchgen.utils.FileManager, "write")
     def test_fm_doesnot_writes_custom_ops_header_when_boolean_is_false(
         self, unused: Mock, mock_method: Mock

@@ -97,6 +97,7 @@ def read_nm(
     if exclude is None:
         exclude = ["N"]
 
+    # pyrefly: ignore  # bad-argument-type
     output = get_tool_output([nm, file])
     result = []
     for line in output.splitlines():
@@ -132,6 +133,7 @@ def get_object_symbols(
 def get_elf_dependencies(readelf: str, binary_file: Path) -> List[str]:
     """Get the shared object dependencies of a binary executable."""
     shared_objects = []
+    # pyrefly: ignore  # bad-argument-type
     output = get_tool_output([readelf, "-d", binary_file])
     for line in output.splitlines():
         match = re.search(READELF_DEP_REGEX, line)
@@ -145,6 +147,7 @@ def get_elf_dependencies(readelf: str, binary_file: Path) -> List[str]:
 def get_binary_dynamic_symbols(readelf: str, binary_file: Path) -> List[str]:
     """Get the dynamic symbols required by a binary executable."""
     dynamic_symbols = []
+    # pyrefly: ignore  # bad-argument-type
     output = get_tool_output([readelf, "--dyn-syms", "--wide", binary_file])
     for line in output.splitlines():
         match = re.search(READELF_DYN_SYM_REGEX, line)
@@ -195,6 +198,7 @@ def get_cached_symbols(nm: str, build_root: Path) -> Dict[str, Symbol]:
                     source_file_path = (
                         PROJECT_ROOT / object_file_rel.parent.parent / source_file_name
                     )
+                # pyrefly: ignore  # bad-argument-type
                 get_object_symbols(nm, symbols, object_file_path, source_file_path)
 
     symbols_cache = symbols
@@ -347,6 +351,7 @@ def main() -> int:
     if args.check_dependencies:
         if args.binary is None:
             error("--binary flag must be specified when checking dependencies")
+        # pyrefly: ignore  # bad-argument-type
         status = check_dependencies(args.readelf, Path(args.binary))
         exit_status = bubble_error(exit_status, status)
 
@@ -354,6 +359,7 @@ def main() -> int:
         if args.buck_out is None:
             error("--buck-out flag must be specified when checking disallowed symbols")
         status = check_disallowed_symbols_build_dir(
+            # pyrefly: ignore  # bad-argument-type
             args.nm, args.cxxfilt, Path(args.buck_out)
         )
         exit_status = bubble_error(exit_status, status)
@@ -365,6 +371,7 @@ def main() -> int:
             args.nm,
             args.readelf,
             args.cxxfilt,
+            # pyrefly: ignore  # bad-argument-type
             Path(args.binary),
             Path(args.buck_out) if args.buck_out is not None else None,
         )

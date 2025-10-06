@@ -1,0 +1,37 @@
+project-includes = [
+    # "backends",
+    "codegen",
+    "devtools",
+    # "examples",
+    # "exir",
+    "extension",
+    "kernels",
+    "profiler",
+    "runtime",
+    "scripts",
+    "test",
+    "util",
+]
+
+disable-search-path-heuristics = true
+search-path = ['.']
+
+project-excludes = [
+    "backends/xnnpack/**"
+]
+
+ignore-missing-imports = [
+    "buck_util.*",
+    "docutils.*",
+    "pandas.*",
+    "pytorch_sphinx_theme.*",
+    "ruamel.*",
+    "serializer.*",
+    "tosa_tools.*",
+    "setuptools.*",
+    "sphinx.*",
+    "tomllib.*",
+    "yaml.*",
+    "zstd.*",
+]
+untyped-def-behavior = "skip-and-infer-return-any"

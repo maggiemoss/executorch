@@ -32,6 +32,7 @@ def tile_crop(output: torch.Tensor, tile_size: int) -> torch.Tensor:
     # Use an unbacked symint to create an upper-bounded dynamic shape output.
     # Otherwise, output is set to a static shape, and we can only output
     # tensors of shape [MAX_NUM_TILES, 3, 224, 224].
+    # pyrefly: ignore  # implicit-import
     ctx = torch._custom_ops.get_ctx()
     s0 = ctx.create_unbacked_symint()
     torch._constrain_as_size(s0, 0, MAX_NUM_TILES)

@@ -216,6 +216,7 @@ class LLMEdgeManager:
         # 1. torch.nn.attention.sdpa_kernel([SDPBackend.MATH]) is for bypassing the dynamo error when tracing
         # 2. torch.no_grad() is for getting rid of the dropout (not sure why training ops will show up)
         with torch.nn.attention.sdpa_kernel([SDPBackend.MATH]), torch.no_grad():
+            # pyrefly: ignore  # invalid-argument
             if module:
                 logging.info("Re-exporting with:")
             else:
@@ -357,6 +358,7 @@ class LLMEdgeManager:
                     self.pre_autograd_graph_module is not None
                 ), "Please run export() first"
                 m = prepare_pt2e(
+                    # pyrefly: ignore  # bad-argument-type
                     self.pre_autograd_graph_module,  # pyre-ignore[6]
                     composed_quantizer,
                 )
@@ -415,6 +417,7 @@ class LLMEdgeManager:
             override_export_behaviour = contextlib.nullcontext()
             with override_export_behaviour:
                 self.edge_manager = export_to_edge(
+                    # pyrefly: ignore  # bad-argument-type
                     self.pre_autograd_graph_module,  # pyre-fixme[6]
                     self.example_inputs,
                     example_kwarg_inputs=self.example_kwarg_inputs,
@@ -506,6 +509,7 @@ class LLMEdgeManager:
                 # argument `passes`, expected `List[typing.Callable[[GraphModule],
                 # Optional[PassResult]]]` but got `List[Union[ConvertToLinearPass,
                 # QuantFusionPass]]`.
+                # pyrefly: ignore  # bad-argument-type
                 passes=to_executorch_passes,
                 do_quant_fusion_and_const_prop=True,
                 memory_planning_pass=MemoryPlanningPass(alloc_graph_input=False),
@@ -528,7 +532,9 @@ class LLMEdgeManager:
             output_name (Optional[str]): The name of the .pte file.
         """
         assert output_name, "Need a valid output name"
+        # pyrefly: ignore  # bad-argument-type
         filename = save_pte_program(self.export_program, output_name, self.output_dir)
+        # pyrefly: ignore  # bad-assignment
         self._saved_pte_filename = filename
 
     def get_saved_pte_filename(self) -> Optional[str]:

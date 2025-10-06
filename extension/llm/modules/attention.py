@@ -123,6 +123,7 @@ class MultiHeadAttention(nn.Module):
         if attn_dropout < 0 or attn_dropout > 1:
             raise ValueError(f"attn_dropout ({embed_dim}) must be between 0.0 and 1.0")
 
+        # pyrefly: ignore  # invalid-argument
         if bool(q_norm) ^ bool(k_norm):
             raise ValueError("q and k norm must be set together")
 
@@ -305,11 +306,15 @@ class MultiHeadAttention(nn.Module):
             # In eager, we expect this predicate to specialize. In export, this will
             # become a SymBool so it's not specialized.
             k, v, cache_pos = torch.cond(
+                # pyrefly: ignore  # bad-argument-type
                 torch.isnan(y).all().item(), true_fn, false_fn, (y,)
             )
             # Update key-value cache
+            # pyrefly: ignore  # not-callable
             self.kv_cache.k_cache.copy_(k)
+            # pyrefly: ignore  # not-callable
             self.kv_cache.v_cache.copy_(v)
+            # pyrefly: ignore  # not-callable
             self.kv_cache.kv_cache_pos.copy_(cache_pos)
 
         output = self._sdpa(q, k, v, b, s_x, mask=mask)

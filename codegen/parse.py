@@ -99,6 +99,7 @@ def parse_et_yaml_struct(es: object) -> ETKernelIndex:
         if len(index := parse_from_yaml(e)) != 0:
             indices[opname] = index
 
+    # pyrefly: ignore  # bad-argument-type
     return ETKernelIndex(indices)
 
 

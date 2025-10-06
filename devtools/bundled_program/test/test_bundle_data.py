@@ -141,6 +141,7 @@ class TestBundle(unittest.TestCase):
         executorch_program, method_test_suites = get_common_executorch_program()
 
         # pyre-ignore[8]: Use a wrong type on purpose. Should raise an error when creating a bundled program using method_test_suites.
+        # pyrefly: ignore  # bad-assignment
         method_test_suites[0].test_cases[-1].inputs = ["WRONG INPUT TYPE"]
         self.assertRaises(
             AssertionError,

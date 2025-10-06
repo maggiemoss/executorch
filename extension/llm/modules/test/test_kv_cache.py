@@ -120,6 +120,7 @@ class KVCacheTest(unittest.TestCase):
                 self.kv_cache = kv_cache
 
             def forward(self, k_val: torch.Tensor, v_val: torch.Tensor):
+                # pyrefly: ignore  # not-callable
                 return self.kv_cache.update(k_val, v_val)
 
         dim = torch.export.Dim("seq_len_dim", min=1, max=self.max_seq_len)

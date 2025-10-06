@@ -65,6 +65,7 @@ def run_git(command: List[str]) -> List[str]:
         lines = result.stdout.split("\n")
         # Remove empty and whitespace-only lines.
         lines = [line.strip() for line in lines if line.strip()]
+        # pyrefly: ignore  # unknown-name
         global verbose
         if verbosity > 1:
             debug_log("-----BEGIN GIT OUTPUT-----")

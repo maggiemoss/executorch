@@ -22,6 +22,7 @@ from executorch.exir import ExecutorchProgram, ExecutorchProgramManager
 from executorch.exir.tensor import get_scalar_type, scalar_type_enum, TensorSpec
 
 # pyre-ignore
+# pyrefly: ignore  # bad-assignment
 supported_program_type_table: Dict[Type[core_schema.KernelTypes], ConfigValue] = {
     core_schema.Tensor: torch.Tensor,
     core_schema.Int: int,
@@ -216,6 +217,7 @@ class BundledProgram:
     ) -> torch.dtype:
         return get_scalar_type(
             # pyre-fixme[16]: now assert all input and outputs is in tenor type. Support multuple datatypes in the future.
+            # pyrefly: ignore  # missing-attribute
             self._get_program_input(program, plan_idx, input_idx).scalar_type
         )
 
@@ -230,6 +232,7 @@ class BundledProgram:
         # pyre-fixme[6]: Incompatible parameter type [6]: In call `dict.__getitem__`, for 1st positional only parameter
         # expected `Type[Union[core_schema.Bool, core_schema.Double, core_schema.Int]]` but got `Type[Union[core_schema.Bool, core_schema.Double, core_schema.Int, core_schema.Tensor, BoolList, DoubleList,
         # IntList, Null, OptionalTensorList, String, TensorList]]`.
+        # pyrefly: ignore  # index-error
         return type_lookup[type(self._get_program_input(program, plan_idx, input_idx))]
 
     def _get_output_dtype(
@@ -237,6 +240,7 @@ class BundledProgram:
     ) -> torch.dtype:
         return get_scalar_type(
             # pyre-ignore[16]: now assert all outputs is in tensor type.
+            # pyrefly: ignore  # missing-attribute
             self._get_program_output(program, plan_idx, output_idx).scalar_type
         )
 
@@ -341,11 +345,13 @@ class BundledProgram:
                     if type(cur_plan_test_inputs[j]) is torch.Tensor:
                         # pyre-fixme[16]: Undefined attribute [16]: Item `bool` of `typing.Union[bool, float, int, torch._tensor.Tensor]`
                         # has no attribute `dtype`.
+                        # pyrefly: ignore  # missing-attribute
                         assert cur_plan_test_inputs[j].dtype == self._get_input_dtype(
                             program, program_plan_id, j
                         ), "The input tensor {} dtype shall be {}, but now is {}".format(
                             cur_plan_test_inputs[j],
                             self._get_input_dtype(program, program_plan_id, j),
+                            # pyrefly: ignore  # missing-attribute
                             cur_plan_test_inputs[j].dtype,
                         )
                     elif type(cur_plan_test_inputs[j]) in (
@@ -370,6 +376,7 @@ class BundledProgram:
 
                     # pyre-fixme[16]: Undefined attribute [16]: Item `bool` of `typing.Union[bool, float, int, torch._tensor.Tensor]`
                     # has no attribute `dtype`.
+                    # pyrefly: ignore  # missing-attribute
                     assert cur_plan_test_expected_outputs[
                         j
                     ].dtype == self._get_output_dtype(
@@ -377,6 +384,7 @@ class BundledProgram:
                     ), "The label tensor {} dtype shall be {}, but now is {}".format(
                         cur_plan_test_expected_outputs[j],
                         self._get_output_dtype(program, program_plan_id, j),
+                        # pyrefly: ignore  # missing-attribute
                         cur_plan_test_expected_outputs[j].dtype,
                     )
 

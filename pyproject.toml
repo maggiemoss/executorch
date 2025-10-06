@@ -129,3 +129,4 @@ first_party_detection = false
 # specified by `requires-python`. TODO: Remove this once we support these older
 # versions of python and can expand the `requires-python` range.
 target-version = ["py38", "py39", "py310", "py311", "py312"]
+]

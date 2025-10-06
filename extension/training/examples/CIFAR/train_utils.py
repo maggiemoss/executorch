@@ -93,6 +93,7 @@ def train_model(
         epoch_loss = 0.0
         epoch_correct = 0
         epoch_total = 0
+        # pyrefly: ignore  # bad-assignment
         for data in train_loader:
             # Get the input data as a list of [inputs, labels]
             inputs, labels = data
@@ -134,6 +135,7 @@ def train_model(
             test_correct = 0
             test_total = 0
             with torch.no_grad():  # No need to track gradients
+                # pyrefly: ignore  # bad-assignment
                 for data in test_loader:
                     images, labels = data
                     outputs = model(images)
@@ -245,6 +247,7 @@ def fine_tune_executorch_model(
             epoch_loss += loss.item()
 
             # Calculate accuracy
+            # pyrefly: ignore  # missing-attribute
             train_correct += (predicted == labels).sum().item()
             train_total += labels.size(0)
 
@@ -295,6 +298,7 @@ def fine_tune_executorch_model(
             val_loss += loss.item()
 
             # Calculate accuracy
+            # pyrefly: ignore  # missing-attribute
             val_correct += (predicted == labels).sum().item()
             val_total += labels.size(0)
 
@@ -413,6 +417,7 @@ def train_both_models(
         pytorch_train_time = 0.0
         et_train_time = 0.0
 
+        # pyrefly: ignore  # bad-assignment
         for batch in tqdm(train_loader, desc="Training"):
             inputs, labels = batch
             batch_size = labels.size(0)
@@ -493,6 +498,7 @@ def train_both_models(
         et_test_time = 0.0
 
         with torch.no_grad():
+            # pyrefly: ignore  # bad-assignment
             for batch in tqdm(test_loader, desc="Testing"):
                 inputs, labels = batch
                 batch_size = labels.size(0)

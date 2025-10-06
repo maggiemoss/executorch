@@ -80,14 +80,18 @@ class SplitGraph(ExportPass):
             # Check the current node which is the last node of the layer
             if cur_layer in self.shard_layers and prev_layer == cur_layer - 1:
                 with graph_module.graph.inserting_after(prev_node):
+                    # pyrefly: ignore  # missing-attribute
                     users = list(prev_node.users.keys())
                     inserted_node = graph_module.graph.create_node(
                         "call_function",
                         exir_ops.edge.llama.fallback.default,
                         (prev_node,),
                     )
+                    # pyrefly: ignore  # missing-attribute
                     inserted_node.meta["val"] = prev_node.meta["val"]
+                    # pyrefly: ignore  # missing-attribute
                     if prev_node.meta.get(QCOM_QUANT_ATTRS, None):
+                        # pyrefly: ignore  # missing-attribute
                         inserted_node.meta[QCOM_QUANT_ATTRS] = prev_node.meta[
                             QCOM_QUANT_ATTRS
                         ]

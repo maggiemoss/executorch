@@ -51,6 +51,7 @@ if sys.platform == "win32":
 # wouldn't preserve the static type annotations.
 #
 # Note that all of these are experimental, and subject to change without notice.
+# pyrefly: ignore  # import-error
 from executorch.extension.pybindings._portable_lib import (  # noqa: F401
     # Disable "imported but unused" (F401) checks.
     _create_profile_block,  # noqa: F401

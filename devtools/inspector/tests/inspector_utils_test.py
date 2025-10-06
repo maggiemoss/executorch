@@ -880,6 +880,7 @@ def gen_mock_operator_graph_with_expected_map() -> (
         node_div,
     ]
     node_output = ValueNode("output", [node_div])
+    # pyrefly: ignore  # bad-return
     return (
         OperatorGraph(
             "mock_et_model",

@@ -53,6 +53,7 @@ def write_selected_prim_ops(prim_op_names: List[str], output_dir: str) -> None:
     defines = []
     for op_name in prim_op_names:
         macro_name = normalize_op_name(op_name)
+        # pyrefly: ignore  # bad-argument-type
         defines.append(f"#define {macro_name}")
 
     # Join all defines with newlines

@@ -135,7 +135,9 @@ def get_pt2e_quantizers(
                 is_per_channel=True, is_dynamic=True
             )
         dynamic_quantizer.set_global(operator_config_dynamic)
+        # pyrefly: ignore  # bad-argument-type
         quantizers.append(dynamic_quantizer)
+    # pyrefly: ignore  # bad-return
     return quantizers
 
 

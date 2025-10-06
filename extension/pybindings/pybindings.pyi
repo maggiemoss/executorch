@@ -7,6 +7,7 @@
 # pyre-strict
 from __future__ import annotations
 
+# pyrefly: ignore  # missing-module-attribute
 from typing import Any, Dict, Enum, List, Optional, Sequence, Tuple
 
 from executorch.exir._warnings import experimental
@@ -20,7 +21,9 @@ class Verification(Enum):
         This API is experimental and subject to change without notice.
     """
 
+    # pyrefly: ignore  # invalid-annotation
     Minimal: ...
+    # pyrefly: ignore  # invalid-annotation
     InternalConsistency: ...
 
 @experimental("This API is experimental and subject to change without notice.")

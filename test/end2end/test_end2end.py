@@ -555,6 +555,7 @@ def maketest(
                     flatten_inputs, inputs_spec = pytree.tree_flatten(*inputs)
                     executorch_result = executorch_module.forward([*flatten_inputs])
                     # pyre-fixme[16]: Module `pytree` has no attribute `TreeSpec`.
+                    # pyrefly: ignore  # missing-attribute
                     executorch_result_unflatten = pytree.TreeSpec.from_str(
                         program.execution_plan[0].container_meta_type.encoded_out_str
                     ).tree_unflatten(executorch_result)
