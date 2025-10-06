@@ -52,9 +52,11 @@ class TrainingModule:
 
         fqn = self.model.run_method(self.fqn_method_prefix + method_name, ())
 
+        # pyrefly: ignore  # bad-assignment
         self.named_grads = dict(zip(fqn, grads))
         if self.named_params is None:
             params = full_outputs[params_start_idx:]
+            # pyrefly: ignore  # bad-assignment
             self.named_params = dict(zip(fqn, params))
 
         return user_outs

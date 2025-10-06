@@ -58,7 +58,9 @@ class BalancedCIFARDataset(Dataset):
                 self.data.append(image_data)
                 self.labels.append(label)
 
+        # pyrefly: ignore  # bad-assignment
         self.data = np.array(self.data)
+        # pyrefly: ignore  # bad-assignment
         self.labels = np.array(self.labels)
         self.transform = transform
 

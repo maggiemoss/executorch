@@ -23,6 +23,7 @@ try:
 
     # pyre-fixme[21]: Could not find module `executorch.extension.pytree.pybindings`.
     # @manual=//executorch/extension/pytree:pybindings
+    # pyrefly: ignore  # import-error
     from executorch.extension.pytree.pybindings import (
         broadcast_to_and_flatten as broadcast_to_and_flatten,
         from_str as from_str,
@@ -39,6 +40,7 @@ except:
 
     from torch.utils._pytree import (
         _broadcast_to_and_flatten,
+        # pyrefly: ignore  # deprecated
         _register_pytree_node,
         tree_flatten,
         tree_map,

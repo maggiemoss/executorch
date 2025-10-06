@@ -72,10 +72,12 @@ class MethodTestCase:
         """
         # TODO(gasoonjia): Update type check logic.
         # pyre-ignore [6]: Misalign data type for between MethodTestCase attribute and sanity check.
+        # pyrefly: ignore  # bad-argument-type
         self.inputs: List[ConfigValue] = self._flatten_and_sanity_check(inputs)
         self.expected_outputs: List[ConfigValue] = []
         if expected_outputs is not None:
             # pyre-ignore [6]: Misalign data type for between MethodTestCase attribute and sanity check.
+            # pyrefly: ignore  # bad-argument-type
             self.expected_outputs = self._flatten_and_sanity_check(expected_outputs)
 
     def _flatten_and_sanity_check(

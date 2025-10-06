@@ -161,6 +161,7 @@ class WhisperAudioProcessor(nn.Module):
             center=True,
             return_complex=True,
         )
+        # pyrefly: ignore  # unsupported-operation
         magnitudes = torch.abs(stft)[..., :-1] ** 2  # pyre-ignore[58]
 
         mel_spec = self.mel_filters @ magnitudes

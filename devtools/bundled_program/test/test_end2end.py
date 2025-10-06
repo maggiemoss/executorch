@@ -29,6 +29,7 @@ except ImportError as e:
     pass
 
 try:
+    # pyrefly: ignore  # import-error
     from executorch.extension.pybindings.aten_lib import (  # @manual=//executorch/extension/pybindings:aten_lib
         _load_bundled_program_from_buffer,
     )

@@ -240,6 +240,7 @@ def gen_oplist(
         delimiter = "," if "," in root_ops else " "
         print(root_ops)
         op_set.update(
+            # pyrefly: ignore  # no-matching-overload
             set(filter(lambda x: len(x) > 0, map(str.strip, root_ops.split(delimiter))))
         )
         et_kernel_metadata = merge_et_kernel_metadata(

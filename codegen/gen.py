@@ -593,6 +593,7 @@ def gen_custom_ops(
     ) = gen_custom_ops_registration(
         native_functions=native_functions,
         selector=selector,
+        # pyrefly: ignore  # bad-argument-type
         kernel_index=kernel_index,
         rocm=rocm,
     )
@@ -778,6 +779,7 @@ def parse_yaml(
                 for op_name, kernel_mapping in kernel_index.index.items()
                 if op_name in op_names
             }
+            # pyrefly: ignore  # bad-argument-type
             return native_functions, ETKernelIndex(index=filtered_index)
 
         # (2) Return BackendIndices if kernel index is absent
@@ -857,6 +859,7 @@ def parse_yaml_files(
 
         combined_functions = translated_functions + custom_ops_functions
         combined_kernel_index = ETKernelIndex.merge_indices(
+            # pyrefly: ignore  # bad-argument-type
             translated_indices, custom_ops_indices
         )
         combined_yaml = ETParsedYaml(combined_functions, combined_kernel_index)

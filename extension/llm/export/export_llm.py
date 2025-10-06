@@ -85,6 +85,7 @@ def hydra_main(llm_config: LlmConfig) -> None:
     structured = OmegaConf.structured(LlmConfig)
     merged = OmegaConf.merge(structured, llm_config)
     llm_config_obj = OmegaConf.to_object(merged)
+    # pyrefly: ignore  # bad-argument-type
     export_llama(llm_config_obj)
 
 

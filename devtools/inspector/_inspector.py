@@ -283,18 +283,22 @@ class PerfData:
 
     @property
     def p10(self) -> float:
+        # pyrefly: ignore  # bad-return
         return np.percentile(self.raw, 10)
 
     @property
     def p50(self) -> float:
+        # pyrefly: ignore  # bad-return
         return np.percentile(self.raw, 50)
 
     @property
     def p90(self) -> float:
+        # pyrefly: ignore  # bad-return
         return np.percentile(self.raw, 90)
 
     @property
     def avg(self) -> float:
+        # pyrefly: ignore  # bad-return
         return np.mean(self.raw)
 
     @property
@@ -690,7 +694,9 @@ class Event:
                 # Attach node metadata including stack traces, module hierarchy and op_types to this event
                 if node is not None and (metadata := node.metadata) is not None:
                     if node.name not in self.stack_traces:
+                        # pyrefly: ignore  # unsupported-operation
                         self.stack_traces[node.name] = metadata.get("stack_trace")
+                        # pyrefly: ignore  # unsupported-operation
                         self.module_hierarchy[node.name] = metadata.get(
                             "nn_module_stack"
                         )
@@ -844,6 +850,7 @@ class EventBlock:
             # Create a RunSignature from the EventSignatures
             run_signature = RunSignature(
                 name=run.name,
+                # pyrefly: ignore  # bad-argument-type
                 events=tuple(event_signatures.keys()),
                 bundled_input_index=run.bundled_input_index,
             )
@@ -931,6 +938,7 @@ class EventBlock:
         self,
         handle_map: Dict[str, List[int]],
         delegate_map: Optional[Dict[str, DelegateMetadata]] = None,
+        # pyrefly: ignore  # bad-function-definition
         instruction_id_to_num_outs_map: Dict[int, int] = None,
     ):
         """
@@ -951,6 +959,7 @@ class EventBlock:
 
             num_outputs = 1
             if instruction_id_to_num_outs_map is not None:
+                # pyrefly: ignore  # no-matching-overload
                 num_outputs = instruction_id_to_num_outs_map.get(instruction_id, 1)
             event.num_outputs = num_outputs
             # For non-delegated event, handles are found in handle_map
@@ -984,16 +993,19 @@ class EventBlock:
             delegate_metadata_delegate_map = delegate_metadata.get("delegate_map") or {}
 
             # delegate_debug_id can be either int based or string based, therefore we need to check both
+            # pyrefly: ignore  # no-matching-overload
             debug_handles = delegate_metadata_delegate_map.get(
                 delegate_debug_id  # pyre-ignore
             )
             if debug_handles is not None:
                 event.debug_handles = debug_handles
             else:
+                # pyrefly: ignore  # no-matching-overload
                 event.debug_handles = delegate_metadata_delegate_map.get(
                     str(delegate_debug_id)  # pyre-ignore
                 )
                 for key, value in delegate_metadata_delegate_map.items():
+                    # pyrefly: ignore  # unsupported-operation
                     if key in str(delegate_debug_id):
                         event.debug_handles = value
 
@@ -1066,8 +1078,10 @@ class Inspector:
         if etrecord is None:
             self._etrecord = None
         elif isinstance(etrecord, ETRecord):
+            # pyrefly: ignore  # bad-assignment
             self._etrecord = etrecord
         elif isinstance(etrecord, str):
+            # pyrefly: ignore  # bad-assignment
             self._etrecord = parse_etrecord(etrecord_path=etrecord)
         else:
             raise TypeError("Unsupported ETRecord type")
@@ -1143,6 +1157,7 @@ class Inspector:
             )
 
         # (2) Event Metadata Association
+        # pyrefly: ignore  # bad-assignment
         self.op_graph_dict = gen_graphs_from_etrecord(
             etrecord=self._etrecord,
             enable_module_hierarchy=self._enable_module_hierarchy,
@@ -1175,15 +1190,20 @@ class Inspector:
         Capture intermediate outputs only if _representative_inputs are provided
         when using bundled program to create the etrecord
         """
+        # pyrefly: ignore  # missing-attribute
         if self._etrecord._representative_inputs is None:
             return {}, {}
 
         export_program = None
 
         # Will use the exported program to extract intermediate output if and only if exported_program has been provided, and it is one of the ancestors of the edge_dialect_program
+        # pyrefly: ignore  # missing-attribute
         if self._etrecord.exported_program and propagate_back_debug_handle(
+            # pyrefly: ignore  # bad-argument-type
             self._etrecord.exported_program,
+            # pyrefly: ignore  # missing-attribute
             self._etrecord.export_graph_id,
+            # pyrefly: ignore  # missing-attribute
             self._etrecord.edge_dialect_program,
             disable_debug_handle_valdiation,
         ):
@@ -1193,7 +1213,9 @@ class Inspector:
                 "Either aten dialect exported program is not in ETRecord, or it is not one of the ancestors of current edge dialect program."
                 "Will fall back to use edge dialect program to extract intermediate output",
             )
+            # pyrefly: ignore  # missing-attribute
             export_program = self._etrecord.edge_dialect_program
+        # pyrefly: ignore  # missing-attribute
         graph_module = export_program.module()
         aot_debug_handle_to_op_name = get_aot_debug_handle_to_op_name_mapping(
             graph_module
@@ -1227,6 +1249,7 @@ class Inspector:
                 if isinstance(debug_handle, int):
                     debug_handle = (debug_handle,)
                 else:
+                    # pyrefly: ignore  # bad-argument-type
                     debug_handle = tuple(debug_handle)
                 current_entry = debug_handle_to_output.get(
                     debug_handle, (-1, None, event.num_outputs)

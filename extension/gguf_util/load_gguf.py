@@ -8,7 +8,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+# pyrefly: ignore  # import-error
 import gguf
+# pyrefly: ignore  # import-error
 from gguf import GGUFValueType, ReaderTensor
 
 
@@ -84,6 +86,7 @@ def _build_model_args(metadata: dict[str, Any]) -> GGUFModelArgs:
     )
 
 
+# pyrefly: ignore  # invalid-annotation
 def load_file(gguf_file: str) -> (GGUFModelArgs, GGUFWeights):
     """
     Load a GGUF file and return the model arguments and weights.

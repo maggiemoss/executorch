@@ -29,6 +29,7 @@ def _create_pt_model(
         hidden_dim=gguf_model_args.feed_forward_length,
         rope_freq_base=gguf_model_args.rope.freq_base,
     )
+    # pyrefly: ignore  # missing-argument
     pt_model = LlamaTransformer(llama_model_args)
     pt_model.eval()
     return pt_model
@@ -80,10 +81,12 @@ def _load_weights_into_nn(
     for id in range(gguf_model_args.block_count):
         mask_name = f"layers.{id}.attention.mask"
         mask = torch.full(
+            # pyrefly: ignore  # missing-attribute
             (1, 1, pt_model.params.max_seq_len, pt_model.params.max_seq_len),
             float("-inf"),
         )
         mask = torch.triu(mask, diagonal=1)
+        # pyrefly: ignore  # unsupported-operation
         state_dict[mask_name] = mask
 
     pt_model.load_state_dict(state_dict)

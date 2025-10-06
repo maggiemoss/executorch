@@ -84,10 +84,14 @@ def compare_against_base(
     base_file: str, compare_file: str, warning_size: int, error_size: int
 ) -> int:
     """Compare test binary file size against base revision binary file size."""
+    # pyrefly: ignore  # bad-assignment
     base_file = create_file_path(base_file)
+    # pyrefly: ignore  # bad-assignment
     compare_file = create_file_path(compare_file)
 
+    # pyrefly: ignore  # bad-argument-type
     diff = get_file_size(compare_file) - get_file_size(base_file)
+    # pyrefly: ignore  # missing-attribute
     print_size_diff(compare_file.name, base_file.name, diff)
 
     if diff >= error_size:
@@ -101,9 +105,12 @@ def compare_against_base(
 
 def compare_against_max(compare_file: str, max_size: int) -> int:
     """Compare test binary file size against maximum value."""
+    # pyrefly: ignore  # bad-assignment
     compare_file = create_file_path(compare_file)
 
+    # pyrefly: ignore  # bad-argument-type
     diff = get_file_size(compare_file) - max_size
+    # pyrefly: ignore  # missing-attribute
     print_size_diff(compare_file.name, "specified max size", diff)
 
     if diff > 0:

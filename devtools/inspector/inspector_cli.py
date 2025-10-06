@@ -66,7 +66,9 @@ def main() -> None:
         for event_block in inspector.event_blocks:
             if event_block.name == "Execute":
                 compare_results(
+                    # pyrefly: ignore  # bad-argument-type
                     reference_output=event_block.reference_output,
+                    # pyrefly: ignore  # bad-argument-type
                     run_output=event_block.run_output,
                     plot=True,
                 )

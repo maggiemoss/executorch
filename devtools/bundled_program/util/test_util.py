@@ -54,8 +54,10 @@ class SampleModel(torch.nn.Module):
         self, x: torch.Tensor, q: torch.Tensor, a: int = DEFAULT_INT_INPUT
     ) -> torch.Tensor:
         z = x.clone()
+        # pyrefly: ignore  # bad-argument-type
         torch.mul(self.a, x, out=z)
         y = x.clone()
+        # pyrefly: ignore  # no-matching-overload
         torch.add(z, self.b, alpha=a, out=y)
         torch.add(y, q, out=y)
         return y
@@ -64,6 +66,7 @@ class SampleModel(torch.nn.Module):
         self, x: torch.Tensor, q: torch.Tensor, a: int = DEFAULT_INT_INPUT
     ) -> torch.Tensor:
         y = x * q
+        # pyrefly: ignore  # no-matching-overload
         torch.add(y, self.b, alpha=a, out=y)
         return y
 

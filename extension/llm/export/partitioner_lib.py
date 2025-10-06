@@ -132,6 +132,7 @@ def get_coreml_partitioner(
         # so default to CPU_ONLY
         coreml_compute_units = "cpu_only"
     # pyre-ignore
+    # pyrefly: ignore  # bad-assignment
     coreml_compute_units = {
         "cpu_only": ct.ComputeUnit.CPU_ONLY,
         "cpu_and_ne": ct.ComputeUnit.CPU_AND_NE,
@@ -158,6 +159,7 @@ def get_coreml_partitioner(
     compile_specs = CoreMLBackend.generate_compile_specs(  # pyre-fixme[16]
         minimum_deployment_target=minimum_deployment_target,
         compute_precision=ct.precision(ct.precision.FLOAT16.value),
+        # pyrefly: ignore  # bad-argument-type
         compute_unit=coreml_compute_units,
         model_type=CoreMLBackend.MODEL_TYPE.MODEL,  # pyre-fixme[16]
         op_linear_quantizer_config=op_linear_quantizer_config,
@@ -218,6 +220,7 @@ def get_qnn_partitioner(
             debug=False,
             saver=False,
         ),
+        # pyrefly: ignore  # bad-argument-type
         skip_node_id_set={},
         skip_node_op_set=skip_node_op_set,
         # TODO: if deprecated legacy export, skip_mutable_buffer can be set False

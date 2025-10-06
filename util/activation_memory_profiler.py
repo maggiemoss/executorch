@@ -166,6 +166,7 @@ def generate_memory_trace(
                 e["args"]["fqn"] = f"{allocation.fqn}"
                 e["args"]["source"] = f"{allocation.file_and_line_num}"
                 e["args"]["bytes"] = allocation.size_bytes
+            # pyrefly: ignore  # unsupported-operation
             start_time += allocation_size_kb
             trace_events.append(e)
         tid += 1

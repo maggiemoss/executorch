@@ -173,6 +173,7 @@ def main(argv: List[Any]) -> None:
                 len(model_file_names) > 0
             ), "BUCK was not able to find any `et_operator_library` in the dependency graph of the current ExecuTorch "
             "build. Please refer to Selective Build wiki page to add at least one."
+            # pyrefly: ignore  # bad-assignment
             for model_file_name in model_file_names:
                 if not os.path.isfile(model_file_name):
                     model_file_name = os.path.join(

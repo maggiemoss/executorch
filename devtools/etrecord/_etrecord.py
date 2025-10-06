@@ -44,6 +44,7 @@ except ImportError:
         pass
 
 
+# pyrefly: ignore  # invalid-inheritance
 class ETRecordReservedFileNames(StrEnum):
     ETRECORD_IDENTIFIER = "ETRECORD_V0"
     EXPORTED_PROGRAM = "exported_program"
@@ -114,6 +115,7 @@ class ETRecord:
         """
         if isinstance(path, (str, os.PathLike)):
             # pyre-ignore[6]: In call `os.fspath`, for 1st positional argument, expected `str` but got `Union[PathLike[typing.Any], str]`
+            # pyrefly: ignore  # no-matching-overload
             path = os.fspath(path)
 
         if not (self.edge_dialect_program and self._debug_handle_map):
@@ -618,11 +620,14 @@ def _process_executorch_program(
         reference_outputs = _get_reference_outputs(executorch_program)
         representative_inputs = _get_representative_inputs(executorch_program)
         # pyre-ignore[16]: Item `None` of `typing.Union[None, exir.program._program.ExecutorchProgram, exir.program._program.ExecutorchProgramManager]` has no attribute `debug_handle_map`
+        # pyrefly: ignore  # missing-attribute
         debug_handle_map = executorch_program.executorch_program.debug_handle_map
         # pyre-ignore[16]: Item `None` of `typing.Union[None, exir.program._program.ExecutorchProgram, exir.program._program.ExecutorchProgramManager]` has no attribute `debug_handle_map`
+        # pyrefly: ignore  # missing-attribute
         delegate_map = executorch_program.executorch_program.delegate_map
         # pyre-ignore[16]: Item `None` of `typing.Union[None, exir.program._program.ExecutorchProgram, exir.program._program.ExecutorchProgramManager]` has no attribute `instruction_id_to_num_outs_map`
         instruction_id_to_num_outs_map = (
+            # pyrefly: ignore  # missing-attribute
             executorch_program.executorch_program.instruction_id_to_num_outs_map
         )
         return (

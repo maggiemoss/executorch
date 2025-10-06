@@ -102,22 +102,29 @@ class KVCache(TuneKVCache):
             bsz, _, seq_len, _ = k_val.shape
         else:
             bsz, seq_len, _, _ = k_val.shape
+        # pyrefly: ignore  # index-error
         if bsz > self.k_cache.shape[0]:
             raise ValueError(
+                # pyrefly: ignore  # index-error
                 f"The current cache has been setup with a batch size of {self.k_cache.shape[0]}"
                 f", but found new key tensors with batch size {k_val.shape[0]}!"
             )
 
+        # pyrefly: ignore  # index-error
         assert (self.kv_cache_pos[0] + seq_len) <= self.max_seq_len
 
         k_out = self.k_cache
         v_out = self.v_cache
 
         if self.transpose_cache:
+            # pyrefly: ignore  # unsupported-operation, index-error
             k_out[:, :, self.kv_cache_pos[:seq_len]] = k_val
+            # pyrefly: ignore  # unsupported-operation, index-error
             v_out[:, :, self.kv_cache_pos[:seq_len]] = v_val
         else:
+            # pyrefly: ignore  # unsupported-operation, index-error
             k_out[:, self.kv_cache_pos[:seq_len]] = k_val
+            # pyrefly: ignore  # unsupported-operation, index-error
             v_out[:, self.kv_cache_pos[:seq_len]] = v_val
 
         # forward cache_pos seq_len positions along
@@ -127,25 +134,35 @@ class KVCache(TuneKVCache):
         # this allows us to track the current position in the cache
         # after the last update in a compile-friendly way without any dynamism
         # e.g. relying on an int size tracker, or re-creating cache_pos every time
+        # pyrefly: ignore  # not-callable
         self.kv_cache_pos.add_(seq_len)
 
+        # pyrefly: ignore  # bad-return
         return k_out, v_out
 
     def clone(self) -> "KVCache":
         """Create a clone of the KVCache."""
         if self.transpose_cache:
+            # pyrefly: ignore  # index-error
             num_kv_heads = self.k_cache.shape[1]
         else:
+            # pyrefly: ignore  # index-error
             num_kv_heads = self.k_cache.shape[2]
         clone = KVCache(
             batch_size=self.batch_size,
             max_seq_len=self.max_seq_len,
+            # pyrefly: ignore  # bad-argument-type
             num_kv_heads=num_kv_heads,
+            # pyrefly: ignore  # index-error, bad-argument-type
             head_dim=self.k_cache.shape[3],
+            # pyrefly: ignore  # bad-argument-type
             dtype=self.k_cache.dtype,
             transpose_cache=self.transpose_cache,
         )
+        # pyrefly: ignore  # not-callable, bad-argument-type
         clone.k_cache.copy_(self.k_cache)
+        # pyrefly: ignore  # not-callable, bad-argument-type
         clone.v_cache.copy_(self.v_cache)
+        # pyrefly: ignore  # not-callable, bad-argument-type
         clone.kv_cache_pos.copy_(self.kv_cache_pos)
         return clone

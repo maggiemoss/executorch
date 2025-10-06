@@ -56,6 +56,7 @@ class IntermediateOutputCapturer(Interpreter):
             return result
 
         original_run_node = self.run_node
+        # pyrefly: ignore  # bad-param-name-override, bad-assignment
         self.run_node = capture_run_node
         self.run(*args, **kwargs)
         self.run_node = original_run_node

@@ -76,6 +76,7 @@ class FXOperatorGraph(OperatorGraph):
     def _get_node_name(node: torch.fx.Node) -> str:
         if node.target == operator.getitem:
             # pyre-ignore[9]: Incompatible variable type
+            # pyrefly: ignore  # bad-assignment
             node = node.args[0]
             assert isinstance(
                 node, torch.fx.Node
@@ -89,6 +90,7 @@ class FXOperatorGraph(OperatorGraph):
     @staticmethod
     def _get_op_name(node: torch.fx.Node) -> str:
         # pyre-ignore[16]: has no attribute `__name__`.
+        # pyrefly: ignore  # missing-attribute
         return node.target.__name__
 
     # Given a node and its metadata (if containing module stack), update the provided module mappings
@@ -134,17 +136,22 @@ class FXOperatorGraph(OperatorGraph):
 
         for index, arg in enumerate(args):
             if isinstance(arg, torch.fx.node.Node):
+                # pyrefly: ignore  # implicit-import
                 if arg.target == exir.memory.alloc:
                     continue
+                # pyrefly: ignore  # bad-assignment
                 arg_name = FXOperatorGraph._get_node_name(arg)
             elif isinstance(arg, (int, float, torch.dtype, str)):
                 # e.g. The "0" from node.args of squeeze_copy (mm_default, 0)
                 if named_args and len(named_args) > index:
                     arg_name = named_args[index].name + "_" + str(const_count)
                 else:
+                    # pyrefly: ignore  # bad-assignment
                     arg_name = "CONST_" + str(const_count)
                 const_count += 1
+                # pyrefly: ignore  # bad-argument-type
                 const_node = ValueNode(arg_name, val=str(arg))
+                # pyrefly: ignore  # unsupported-operation
                 nodes[arg_name] = const_node
                 if enable_module_hierarchy:
                     FXOperatorGraph._update_module_mapping(
@@ -195,12 +202,14 @@ class FXOperatorGraph(OperatorGraph):
                     inputs.append(nodes[val])
             else:
                 inputs.append(nodes[arg_name])
+        # pyrefly: ignore  # bad-assignment
         for _, node in kwargs.items():
             # We can ignore the out kwarg as that's mostly used to pass in the output tensor
             # which has been memory planned. The same value is also returned by the operator
             # which is then consumed by other nodes in the graph.
             if (
                 isinstance(node, torch.fx.node.Node)
+                # pyrefly: ignore  # implicit-import
                 and node.target == exir.memory.alloc
             ):
                 continue
@@ -229,6 +238,7 @@ class FXOperatorGraph(OperatorGraph):
         const_count = 0
         for fx_node in graph.nodes:
             if (
+                # pyrefly: ignore  # implicit-import
                 fx_node.target == exir.memory.alloc
                 or fx_node.target == operator.getitem
             ):
@@ -282,6 +292,7 @@ class FXOperatorGraph(OperatorGraph):
                 ]
                 node = ValueNode(
                     name,
+                    # pyrefly: ignore  # bad-argument-type
                     inputs=in_nodes,
                     output_shapes=output_shapes,
                     metadata=metadata,
@@ -312,6 +323,7 @@ class FXOperatorGraph(OperatorGraph):
                 for kwarg_name, kwarg in kwargs.items():
                     if (
                         isinstance(kwarg, torch.fx.node.Node)
+                        # pyrefly: ignore  # implicit-import
                         and kwarg.target == exir.memory.alloc
                         and kwarg_name == "out"
                     ):

@@ -22,6 +22,7 @@ def convert_to_pte(model_args: GGUFModelArgs, weights: GGUFWeights) -> None:
             convert_to_pte as llama_convert_to_pte,
         )
 
+        # pyrefly: ignore  # bad-return
         return llama_convert_to_pte(model_args, weights)
     else:
         raise NotImplementedError("Unsupported architecture.")
